@@ -16,6 +16,7 @@
     <description>KhoaLuan</description>
     <properties>
         <java.version>1.8</java.version>
+               <maven-jar-plugin.version>3.0.5</maven-jar-plugin.version>
     </properties>
     <dependencies>
         <dependency>
