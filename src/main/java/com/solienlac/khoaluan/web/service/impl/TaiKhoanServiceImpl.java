@@ -144,7 +144,7 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
            taiKhoan.setRole(Role.PHU_HUYNH);
            taiKhoanRepository.save(taiKhoan);
 
-           SinhVien sinhVienCon = sinhVienRepository.getById(thongTin.get("SINH_VIEN").toString());
+           SinhVien sinhVienCon = sinhVienRepository.findByMaSinhvVien(thongTin.get("SINH_VIEN").toString());
             if (sinhVienCon==null){
                 throw new ResourceNotFoundException("Sinh viên không tồn tại !");
             }
