@@ -61,7 +61,7 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
                 .signWith(SignatureAlgorithm.HS512, "ABC_EGH")
                 .compact();
         taiKhoanDangNhapResponse.setToken(token);
-        //////////
+        /////////////////////
         TaiKhoan taiKhoan = taiKhoanRepository.findByTenDangNhap(taiKhoanDangNhap.getTenDangNhap());
         if (taiKhoan.getRole()== Role.SINH_VIEN){
             SinhVien sv=  sinhVienRepository.findByMaSinhvVien(taiKhoanDangNhap.getTenDangNhap());
