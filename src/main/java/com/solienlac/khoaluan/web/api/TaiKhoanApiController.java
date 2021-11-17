@@ -19,7 +19,6 @@ public class TaiKhoanApiController {
     private final TaiKhoanService taiKhoanService;
     private final SmsSenderService service;
 
-    //tesst
     @PostMapping("/dangnhap")
     public  ResponseEntity<TaiKhoanDangNhapResponse> dangNhap(@RequestBody TaiKhoanDangNhap taiKhoanDangNhap){
         TaiKhoanDangNhapResponse userLoginResponseDto = taiKhoanService.userLogin(taiKhoanDangNhap);
@@ -30,7 +29,7 @@ public class TaiKhoanApiController {
     public int dangKi(@RequestBody HashMap<String,Object> thongTin){
         return taiKhoanService.dangKi(thongTin);
     }
-    @PostMapping("/sms")
+    @PostMapping("/goisms")
     @ResponseStatus(HttpStatus.CREATED)
     public void goiTinNhan(@RequestBody SmsRequest smsRequest) throws IllegalAccessException {
         service.senderSms(smsRequest);
