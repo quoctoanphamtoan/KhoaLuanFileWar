@@ -29,7 +29,7 @@ public class TaiKhoanApiController {
     public int dangKi(@RequestBody HashMap<String,Object> thongTin){
         return taiKhoanService.dangKi(thongTin);
     }
-    @PostMapping("/goisms")
+    @PostMapping("/sms")
     @ResponseStatus(HttpStatus.CREATED)
     public void goiTinNhan(@RequestBody SmsRequest smsRequest) throws IllegalAccessException {
         service.senderSms(smsRequest);
