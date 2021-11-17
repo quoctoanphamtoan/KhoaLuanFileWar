@@ -24,7 +24,7 @@ public class TaiKhoanApiController {
         TaiKhoanDangNhapResponse userLoginResponseDto = taiKhoanService.userLogin(taiKhoanDangNhap);
         return ResponseEntity.ok(userLoginResponseDto);
     }
-    ////////////
+
     @PostMapping("/dangki")
     @ResponseStatus(HttpStatus.CREATED)
     public int dangKi(@RequestBody HashMap<String,Object> thongTin){
