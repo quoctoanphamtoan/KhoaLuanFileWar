@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 
@@ -17,7 +18,9 @@ import javax.persistence.*;
 @Setter
 public class TaiKhoan  extends AbstractEntity {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     @Column(name = "tenDangNhap")
     private String tenDangNhap;
 
@@ -41,4 +44,10 @@ public class TaiKhoan  extends AbstractEntity {
     @JoinColumn(name = "id", referencedColumnName = "id")
     private PhuHuynh phuHuynh;
 
+    public TaiKhoan(@Nullable Integer id, String tenDangNhap, Role role, String matKhau) {
+        this.id = id;
+        this.tenDangNhap = tenDangNhap;
+        this.role = role;
+        this.matKhau = matKhau;
+    }
 }

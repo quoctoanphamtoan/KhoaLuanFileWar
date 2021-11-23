@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PhuHuynh  extends AbstractEntity {
     @Id
-    private String id;
+    private Integer id;
     @Column(name = "hoTen")
     private String hoTen;
 
@@ -35,6 +35,8 @@ public class PhuHuynh  extends AbstractEntity {
     @Column(name = "gioiTinh")
     private Boolean gioiTinh;
 
+    @OneToMany(mappedBy = "idSinhVien")
+    private List<CanhBao> canhBaoList;
 
     @OneToOne(mappedBy = "phuHuynh",cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
@@ -43,5 +45,15 @@ public class PhuHuynh  extends AbstractEntity {
     @JsonManagedReference
     @OneToMany(mappedBy = "phuHuynh")
     private List<SinhVien> sinhVienList = new ArrayList<>();
+
+
+    public PhuHuynh(Integer id, String hoTen, String diaChi, String soDienThoai, String email, Boolean gioiTinh) {
+        this.id = id;
+        this.hoTen = hoTen;
+        this.diaChi = diaChi;
+        this.soDienThoai = soDienThoai;
+        this.email = email;
+        this.gioiTinh = gioiTinh;
+    }
 
 }

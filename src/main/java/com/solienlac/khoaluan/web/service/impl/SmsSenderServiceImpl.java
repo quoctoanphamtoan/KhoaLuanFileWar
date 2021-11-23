@@ -1,37 +1,59 @@
 package com.solienlac.khoaluan.web.service.impl;
 
-import com.solienlac.khoaluan.web.common.dto.SmsRequest;
+import com.solienlac.khoaluan.web.common.dto.param.PostSmsCanhBao;
 import com.solienlac.khoaluan.web.config.TwilioConfig;
+import com.solienlac.khoaluan.web.domain.CanhBao;
+import com.solienlac.khoaluan.web.domain.GiangVien;
+import com.solienlac.khoaluan.web.domain.PhuHuynh;
+import com.solienlac.khoaluan.web.domain.SinhVien;
+import com.solienlac.khoaluan.web.repository.CanhBaoRepository;
+import com.solienlac.khoaluan.web.repository.GiangVienRepository;
+import com.solienlac.khoaluan.web.repository.SinhVienRepository;
 import com.solienlac.khoaluan.web.service.SmsSenderService;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.rest.api.v2010.account.MessageCreator;
 import com.twilio.type.PhoneNumber;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class SmsSenderServiceImpl implements SmsSenderService {
     private final TwilioConfig twilioConfig ;
+    private final SinhVienRepository sinhVienRepository;
+    private final GiangVienRepository giangVienRepository;
+    private final CanhBaoRepository canhBaoRepository;
 
-    public SmsSenderServiceImpl(TwilioConfig twilioConfig) {
-        this.twilioConfig = twilioConfig;
-    }
 
     @Override
-    public void senderSms(SmsRequest smsRequest) throws IllegalAccessException {
-        if (isPhoneNumberValid(smsRequest.getPhoneNumber())){
-            PhoneNumber to = new PhoneNumber(smsRequest.getPhoneNumber());
+    public Integer senderSms(PostSmsCanhBao thongTinCanhBao) throws IllegalAccessException {
+        SinhVien sinhVien = sinhVienRepository.findById(thongTinCanhBao.getIdSinhVien()).orElse(null);
+
+        PhuHuynh phuHuynh = sinhVien.getPhuHuynh();
+        GiangVien giangVien = giangVienRepository.findById(thongTinCanhBao.getIdGiangVien()).orElse(null);
+        if (isPhoneNumberValid(sinhVien.getSoDienThoai()
+                ,phuHuynh.getSoDienThoai())){
+
+            PhoneNumber toPhuHuynh = new PhoneNumber(phuHuynh.getSoDienThoai());
+            PhoneNumber toSinhVien = new PhoneNumber(sinhVien.getSoDienThoai());
             PhoneNumber from = new PhoneNumber(twilioConfig.getPhone_nummber());
-            String message = smsRequest.getMessage();
-            MessageCreator creator = Message.creator(to,from,message);
-            creator.create();
+            String message = thongTinCanhBao.getMessageCanhBao();
+            MessageCreator creatorPhuHuynh = Message.creator(toPhuHuynh,from,message);
+            MessageCreator creatorSinhVien = Message.creator(toSinhVien,from,message);
+            creatorPhuHuynh.create();
+            creatorSinhVien.create();
+            CanhBao canhBao = new CanhBao(thongTinCanhBao.getMessageCanhBao(),giangVien,sinhVien);
+            canhBaoRepository.save(canhBao);
+            return canhBao.getId();
+
         }else{
             throw new IllegalAccessException("Phone number error! ");
         }
 
     }
 
-    private boolean isPhoneNumberValid(String phoneNumber) {
-        if (phoneNumber.equalsIgnoreCase("")){
+    private boolean isPhoneNumberValid(String phoneSinhVien,String phoneGiangVien) {
+        if (phoneSinhVien.equalsIgnoreCase("")||phoneGiangVien.equalsIgnoreCase("")){
             return false;
         }
         return true;

@@ -34,28 +34,6 @@ public class AuthFilter extends BasicAuthenticationFilter {
 
 		// Get token from request
 		String tokenHeader = request.getHeader("Authorization");
-
-		if (request.getServletPath().startsWith("/api/course") && (tokenHeader == null || tokenHeader.isEmpty() || !tokenHeader.startsWith("Bearer "))) {
-			chain.doFilter(request, response);
-			return;
-		}
-
-		if (request.getServletPath().startsWith("/api/category")) {
-
-			chain.doFilter(request, response);
-			return;
-		}
-
-		if (request.getServletPath().startsWith("/api/auth/register")) {
-			chain.doFilter(request, response);
-			return;
-		}
-
-		if (request.getServletPath().startsWith("/api/auth/login")) {
-			chain.doFilter(request, response);
-			return;
-		}
-
 		// Varify token
 		if (tokenHeader == null || tokenHeader.isEmpty() || !tokenHeader.startsWith("Bearer ")) {
 			response.sendError(401, "Chưa đăng nhập");

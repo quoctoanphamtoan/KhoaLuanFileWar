@@ -1,5 +1,6 @@
 package com.solienlac.khoaluan.web.config;
 
+import com.solienlac.khoaluan.web.domain.common.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -39,24 +40,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**",
-                "/configuration/security", "/swagger-ui.html", "/webjars/**", "/api/admin/auth/login");
+                "/configuration/security", "/swagger-ui.html", "/webjars/**", "/api/solienlacdientu/v1/taikhoan/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors();
-
-        http.csrf().disable() // turn off fraudulent prevention
-
-                .antMatcher("/api/admin/**").authorizeRequests() // only apply access control for url start with /api/admin
-                .antMatchers("/api/admin/auth/login").permitAll()
-                .antMatchers("/api/auth/login").permitAll()
-                .antMatchers("/api/admin/role**").hasAnyRole("ADMIN")
-                .antMatchers("/api/admin/category**").hasAnyRole("ADMIN", "TEACHER")
-                .antMatchers("/api/admin/human**").hasAnyRole("ADMIN", "TEACHER")
-                .antMatchers("/api/admin/user**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-                .anyRequest().authenticated();
-
+        http.cors().and().csrf().disable()
+                .antMatcher("/api/**")
+                .authorizeRequests().antMatchers("/api/solienlacdientu/v1/sinhvien/**").hasAnyAuthority("SINH_VIEN")
+                .antMatchers("/api/solienlacdientu/v1/giangvien/**").hasAnyAuthority("GIANG_VIEN")
+                .antMatchers("/api/solienlacdientu/v1/phuhuynh/**").hasAnyAuthority("PHU_HUYNH")
+                .and()
+                .authorizeRequests()
+                .anyRequest().permitAll();
 
         http.addFilter(new AuthFilter(authenticationManager(), userDetailsService));
         // Not use session

@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Table(name = "GiangVien")
 public class GiangVien  extends AbstractEntity {
     @Id
-    private String id;
+    private Integer id;
 
     @Column(name = "maGiangVien")
     private String maGiangVien;
@@ -40,5 +40,18 @@ public class GiangVien  extends AbstractEntity {
     private TaiKhoan taiKhoan;
 
 
+    @ManyToOne
+    @JoinColumn(name = "idChuyenNganh")
+    private ChuyenNganh chuyenNganh;
 
+
+    public GiangVien(Integer id, String maGiangVien, String hoTen, String diaChi, String soDienThoai, String email, Boolean gioiTinh) {
+        this.id = id;
+        this.maGiangVien = maGiangVien;
+        this.hoTen = hoTen;
+        this.diaChi = diaChi;
+        this.soDienThoai = soDienThoai;
+        this.email = email;
+        this.gioiTinh = gioiTinh;
+    }
 }
