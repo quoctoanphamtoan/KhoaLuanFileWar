@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "CanhBao")
+@Table(name = "canhbao")
 @Getter
 @NoArgsConstructor
 public class CanhBao extends AbstractEntity {

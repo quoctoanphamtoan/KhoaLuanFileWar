@@ -4,9 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "Lop")
+@Table(name = "lop")
 @NoArgsConstructor
 @Getter
 public class Lop {
@@ -14,13 +16,18 @@ public class Lop {
     private Integer id;
     private String tenLop;
 
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "lop")
+    private List<SinhVien> sinhViens = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "idChuyenNganh")
-    private ChuyenNganh chuyenNganh;
 
     @ManyToOne
     @JoinColumn(name = "idGiangVien")
     private GiangVien giangVien;
 
+    @Column(name = "chuyenNganh")
+    private String chuyenNganh;
+
+    public Integer getSiSo(){
+        return this.sinhViens.size();
+    }
 }

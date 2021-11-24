@@ -121,20 +121,20 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
         TaiKhoan taiKhoanResult= taiKhoanRepository.save(taiKhoan);
 
         if (role.equalsIgnoreCase(Role.SINH_VIEN.toString())){
-            SinhVien sinhVien = new SinhVien(taiKhoanResult.getId(),tenDangNhap,
-                    thongTin.getHoTen(), thongTin.getDiaChi(),thongTin.getSoDT(),thongTin.isGioiTinh(),thongTin.getEmail());
+            SinhVien sinhVien = new SinhVien(tenDangNhap,
+                    thongTin.getHoTen(), thongTin.getDiaChi(),thongTin.getSoDT(),thongTin.isGioiTinh(),thongTin.getEmail(),taiKhoan);
             sinhVienRepository.save(sinhVien);
         }
         if (role.equalsIgnoreCase(Role.PHU_HUYNH.toString())){
-            PhuHuynh phuHuynh = new PhuHuynh(taiKhoanResult.getId(), thongTin.getHoTen(), thongTin.getDiaChi(),
-                    thongTin.getSoDT(), thongTin.getEmail(), thongTin.isGioiTinh());
+            PhuHuynh phuHuynh = new PhuHuynh(thongTin.getHoTen(), thongTin.getDiaChi(),
+                    thongTin.getSoDT(), thongTin.getEmail(), thongTin.isGioiTinh(),taiKhoan);
             PhuHuynh phuHuynhRs= phuHuynhRepository.save(phuHuynh);
             SinhVien sinhVienCon = sinhVienRepository.findById(thongTin.getIdSinhVienCon()).orElse(null);
             sinhVienCon.setPhuHuynh(phuHuynhRs);
         }
         if (role.equalsIgnoreCase(Role.GIANG_VIEN.toString())){
             GiangVien giangVien = new GiangVien(taiKhoanResult.getId(),tenDangNhap,thongTin.getHoTen(),
-                    thongTin.getDiaChi(), thongTin.getSoDT(), thongTin.getEmail(), thongTin.isGioiTinh());
+                    thongTin.getDiaChi(), thongTin.getSoDT(), thongTin.getEmail(), thongTin.isGioiTinh(),taiKhoan);
             giangVienRepository.save(giangVien);
         }
 

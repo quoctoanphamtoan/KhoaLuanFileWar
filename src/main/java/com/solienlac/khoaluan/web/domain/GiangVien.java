@@ -1,6 +1,7 @@
 package com.solienlac.khoaluan.web.domain;
 
 import com.solienlac.khoaluan.web.domain.common.AbstractEntity;
+import com.solienlac.khoaluan.web.domain.common.TrangThaiGiangVien;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +12,10 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "GiangVien")
+@Table(name = "giangvien")
 public class GiangVien  extends AbstractEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "maGiangVien")
@@ -34,18 +36,20 @@ public class GiangVien  extends AbstractEntity {
     @Column(name = "gioiTinh")
     private Boolean gioiTinh;
 
+    @Column(name = "trangThai")
+    @Enumerated(EnumType.STRING)
+    private TrangThaiGiangVien trangThai = TrangThaiGiangVien.CONG_TAC;
 
-    @OneToOne(mappedBy = "giangVien",cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idTaiKhoan")
     private TaiKhoan taiKhoan;
 
 
-    @ManyToOne
-    @JoinColumn(name = "idChuyenNganh")
-    private ChuyenNganh chuyenNganh;
 
-
-    public GiangVien(Integer id, String maGiangVien, String hoTen, String diaChi, String soDienThoai, String email, Boolean gioiTinh) {
+    public GiangVien(Integer id, String maGiangVien, String hoTen, String diaChi,
+                     String soDienThoai, String email, Boolean gioiTinh,TaiKhoan taiKhoan) {
         this.id = id;
         this.maGiangVien = maGiangVien;
         this.hoTen = hoTen;
@@ -53,5 +57,6 @@ public class GiangVien  extends AbstractEntity {
         this.soDienThoai = soDienThoai;
         this.email = email;
         this.gioiTinh = gioiTinh;
+        this.taiKhoan = taiKhoan;
     }
 }
