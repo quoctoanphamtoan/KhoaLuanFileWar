@@ -11,13 +11,14 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "TaiKhoan")
+@Table(name = "taikhoan")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 public class TaiKhoan  extends AbstractEntity {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -32,16 +33,13 @@ public class TaiKhoan  extends AbstractEntity {
 
 
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "taiKhoan")
     private SinhVien sinhVien;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "taiKhoan")
     private GiangVien giangVien;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "taiKhoan")
     private PhuHuynh phuHuynh;
 
     public TaiKhoan(@Nullable Integer id, String tenDangNhap, Role role, String matKhau) {

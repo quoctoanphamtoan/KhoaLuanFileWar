@@ -23,7 +23,7 @@ public class DangKiParam {
     private String diaChi;
     private boolean gioiTinh;
     private Role role;
-    private Integer idChuyenNganh;
+    private String chuyenNganh;
     private Integer idSinhVienCon;
 
 }

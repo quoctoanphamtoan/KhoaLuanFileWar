@@ -2,6 +2,7 @@ package com.solienlac.khoaluan.web.domain;
 
 
 import com.solienlac.khoaluan.web.domain.common.AbstractEntity;
+import com.solienlac.khoaluan.web.domain.common.TrangThaiSinhVien;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,13 +12,14 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "SinhVien")
+@Table(name = "sinhvien")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class SinhVien  extends AbstractEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "maSinhVien")
@@ -38,8 +40,12 @@ public class SinhVien  extends AbstractEntity {
     @Column(name = "email")
     private String email;
 
-    @OneToOne(mappedBy = "sinhVien",cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @Column(name = "trangThai")
+    @Enumerated(EnumType.STRING)
+    private TrangThaiSinhVien trangThai = TrangThaiSinhVien.DANG_HOC;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idTaiKhoan")
     private TaiKhoan taiKhoan;
 
     @OneToMany(mappedBy = "idSinhVien")
@@ -49,17 +55,17 @@ public class SinhVien  extends AbstractEntity {
     @JoinColumn(name = "idPhuHuynh")
     private PhuHuynh phuHuynh;
 
-    @ManyToOne
-    @JoinColumn(name = "idChuyenNganh")
-    private ChuyenNganh chuyenNganh;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idLop")
+    private Lop lop;
 
-    public SinhVien(Integer id, String maSinhvVien, String hoTen, String diaChi, String soDienThoai, Boolean gioiTinh, String email) {
-        this.id = id;
+    public SinhVien(String maSinhvVien, String hoTen, String diaChi, String soDienThoai, Boolean gioiTinh, String email,TaiKhoan taiKhoan) {
         this.maSinhvVien = maSinhvVien;
         this.hoTen = hoTen;
         this.diaChi = diaChi;
         this.soDienThoai = soDienThoai;
         this.gioiTinh = gioiTinh;
         this.email = email;
+        this.taiKhoan = taiKhoan;
     }
 }

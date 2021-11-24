@@ -2,6 +2,7 @@ package com.solienlac.khoaluan.web.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.solienlac.khoaluan.web.domain.common.AbstractEntity;
+import com.solienlac.khoaluan.web.domain.common.TrangThaiPhuHuynh;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,13 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "PhuHuynh")
+@Table(name = "phuhuynh")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PhuHuynh  extends AbstractEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "hoTen")
     private String hoTen;
@@ -35,11 +37,16 @@ public class PhuHuynh  extends AbstractEntity {
     @Column(name = "gioiTinh")
     private Boolean gioiTinh;
 
+
+    @Column(name = "trangThai")
+    @Enumerated(EnumType.STRING)
+    private TrangThaiPhuHuynh trangThai = TrangThaiPhuHuynh.HOAT_DONG;
+
     @OneToMany(mappedBy = "idSinhVien")
     private List<CanhBao> canhBaoList;
 
-    @OneToOne(mappedBy = "phuHuynh",cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idTaiKhoan")
     private TaiKhoan taiKhoan;
 
     @JsonManagedReference
@@ -47,13 +54,13 @@ public class PhuHuynh  extends AbstractEntity {
     private List<SinhVien> sinhVienList = new ArrayList<>();
 
 
-    public PhuHuynh(Integer id, String hoTen, String diaChi, String soDienThoai, String email, Boolean gioiTinh) {
-        this.id = id;
+    public PhuHuynh(String hoTen, String diaChi, String soDienThoai, String email, Boolean gioiTinh,TaiKhoan taiKhoan) {
         this.hoTen = hoTen;
         this.diaChi = diaChi;
         this.soDienThoai = soDienThoai;
         this.email = email;
         this.gioiTinh = gioiTinh;
+        this.taiKhoan = taiKhoan;
     }
 
 }
