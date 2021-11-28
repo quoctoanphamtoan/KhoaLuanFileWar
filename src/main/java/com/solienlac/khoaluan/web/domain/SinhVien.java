@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -58,6 +59,10 @@ public class SinhVien  extends AbstractEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idLop")
     private Lop lop;
+
+
+    @OneToMany(mappedBy = "sinhVien")
+    private List<DonXinNghiHoc> donXinNghiHocs= new ArrayList<>();
 
     public SinhVien(String maSinhvVien, String hoTen, String diaChi, String soDienThoai, Boolean gioiTinh, String email,TaiKhoan taiKhoan) {
         this.maSinhvVien = maSinhvVien;

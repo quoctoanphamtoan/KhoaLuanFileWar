@@ -20,7 +20,7 @@ public class Lop {
     private List<SinhVien> sinhViens = new ArrayList<>();
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idGiangVien")
     private GiangVien giangVien;
 

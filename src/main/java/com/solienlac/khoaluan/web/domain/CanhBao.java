@@ -23,7 +23,7 @@ public class CanhBao extends AbstractEntity {
     @JoinColumn(name = "idGiangVien")
     private GiangVien idGiangVien;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idSinhVien")
     private SinhVien idSinhVien;
 
