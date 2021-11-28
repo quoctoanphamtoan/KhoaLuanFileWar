@@ -11,12 +11,5 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/solienlacdientu/v1/sms")
 public class SmsApiController {
-    private final SmsSenderService service;
 
-
-    @PostMapping("/canhbao")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Integer smsCanhBaoSinhVien(@RequestBody PostSmsCanhBao thongTinCanhBao) throws IllegalAccessException {
-        return service.senderSms(thongTinCanhBao);
-    }
 }

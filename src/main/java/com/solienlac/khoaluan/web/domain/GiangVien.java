@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -40,6 +41,8 @@ public class GiangVien  extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private TrangThaiGiangVien trangThai = TrangThaiGiangVien.CONG_TAC;
 
+    @OneToMany(mappedBy = "giangVien")
+    private List<Lop> lops;
 
 
     @OneToOne(cascade = CascadeType.ALL)
