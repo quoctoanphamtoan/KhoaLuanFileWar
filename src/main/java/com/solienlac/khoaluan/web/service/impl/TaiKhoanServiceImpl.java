@@ -1,7 +1,9 @@
 package com.solienlac.khoaluan.web.service.impl;
 
+import com.solienlac.khoaluan.web.common.dto.CheckAuthResponse;
 import com.solienlac.khoaluan.web.common.dto.TaiKhoanDangNhap;
 import com.solienlac.khoaluan.web.common.dto.TaiKhoanDangNhapResponse;
+import com.solienlac.khoaluan.web.common.dto.param.CheckAuthParam;
 import com.solienlac.khoaluan.web.common.dto.param.DangKiParam;
 import com.solienlac.khoaluan.web.domain.GiangVien;
 import com.solienlac.khoaluan.web.domain.PhuHuynh;
@@ -13,33 +15,34 @@ import com.solienlac.khoaluan.web.repository.PhuHuynhRepository;
 import com.solienlac.khoaluan.web.repository.SinhVienRepository;
 import com.solienlac.khoaluan.web.repository.TaiKhoanRepository;
 import com.solienlac.khoaluan.web.service.TaiKhoanService;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class TaiKhoanServiceImpl implements TaiKhoanService {
     private final TaiKhoanRepository taiKhoanRepository;
     private final SinhVienRepository sinhVienRepository;
     private final GiangVienRepository giangVienRepository;
     private final PhuHuynhRepository phuHuynhRepository;
-    AuthenticationManager authenticationManager;
-    public TaiKhoanServiceImpl(AuthenticationManager authenticationManager, TaiKhoanRepository taiKhoanRepository, SinhVienRepository sinhVienRepository, GiangVienRepository giangVienRepository, PhuHuynhRepository phuHuynhRepository) {
-        this.taiKhoanRepository = taiKhoanRepository;
-        this.authenticationManager =authenticationManager;
-        this.sinhVienRepository =sinhVienRepository;
-        this.giangVienRepository = giangVienRepository;
-        this.phuHuynhRepository = phuHuynhRepository;
-    }
+    private final UserDetailsService userDetailsService;
+    private final AuthenticationManager authenticationManager;
+
 
     @Override
     public List<TaiKhoan> getAll() {
@@ -48,6 +51,8 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
 
     @Override
     public TaiKhoanDangNhapResponse userLogin(TaiKhoanDangNhap taiKhoanDangNhap) {
+        System.out.println(taiKhoanDangNhap.getTenDangNhap());
+        System.out.println(taiKhoanDangNhap.getMatKhau());
         TaiKhoanDangNhapResponse taiKhoanDangNhapResponse = new TaiKhoanDangNhapResponse();
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(taiKhoanDangNhap.getTenDangNhap(), taiKhoanDangNhap.getMatKhau()));
@@ -140,6 +145,27 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
 
 
         return  taiKhoanResult.getId();
+    }
+
+    @Override
+    public CheckAuthResponse checkAuth(CheckAuthParam checkAuthParam) {
+        String token = checkAuthParam.getToken();
+        String tenDangNhap = null;
+        try {
+            tenDangNhap = Jwts.parser().setSigningKey("ABC_EGH").parseClaimsJws(token).getBody().getSubject();
+        } catch (Exception e) {
+            if (e instanceof ExpiredJwtException) {
+                 throw new IllegalArgumentException("none");
+            }
+
+        }
+
+        if (tenDangNhap==null){
+            return new CheckAuthResponse(null,false);
+        }
+
+        TaiKhoan taiKhoan = taiKhoanRepository.findByTenDangNhap(tenDangNhap);
+        return new CheckAuthResponse(taiKhoan.getRole(),true);
     }
 
 }

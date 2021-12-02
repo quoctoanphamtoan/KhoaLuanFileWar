@@ -1,5 +1,6 @@
 package com.solienlac.khoaluan.web.common.dto;
 
+import com.solienlac.khoaluan.web.domain.DonXinNghiHoc;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,4 +32,15 @@ public class DonXinNghiHocDto {
     private Date ngayTao;
     private Boolean trangThai;
     private String noiDung;
+
+    public DonXinNghiHocDto(DonXinNghiHoc donXinNghiHoc){
+        this.idDonXinNghiHoc = donXinNghiHoc.getId();
+        this.idSinhVien=donXinNghiHoc.getSinhVien().getId();
+        this.tenSinhVien=donXinNghiHoc.getSinhVien().getHoTen();
+        this.tenLopHocPhan =donXinNghiHoc.getLopHocPhan().getTenLopHP();
+        this.ngayNghi = donXinNghiHoc.getNgayNghi();
+        this.ngayTao=donXinNghiHoc.getNgayTao();
+        this.trangThai=donXinNghiHoc.getTrangThai();
+        this.noiDung=donXinNghiHoc.getNoiDung();
+    }
 }
