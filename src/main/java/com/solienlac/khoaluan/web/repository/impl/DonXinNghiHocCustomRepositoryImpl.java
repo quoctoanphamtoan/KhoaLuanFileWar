@@ -2,11 +2,9 @@ package com.solienlac.khoaluan.web.repository.impl;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.solienlac.khoaluan.web.common.dto.LopDto;
-import com.solienlac.khoaluan.web.domain.Lop;
-import com.solienlac.khoaluan.web.domain.QLop;
-import com.solienlac.khoaluan.web.domain.QSinhVien;
-import com.solienlac.khoaluan.web.repository.LopQueryRepository;
+import com.solienlac.khoaluan.web.domain.DonXinNghiHoc;
+import com.solienlac.khoaluan.web.domain.QDonXinNghiHoc;
+import com.solienlac.khoaluan.web.repository.DonXinNghiHocCustomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,20 +13,18 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 
-@RequiredArgsConstructor
 @Repository
-public class LopQueryRepositoryImpl implements LopQueryRepository {
+@RequiredArgsConstructor
+public class DonXinNghiHocCustomRepositoryImpl implements DonXinNghiHocCustomRepository {
+    private QDonXinNghiHoc donXinNghiHoc = QDonXinNghiHoc.donXinNghiHoc;
     private final EntityManager em;
-    private final QLop lop = QLop.lop;
-    private final QSinhVien sinhVien =QSinhVien.sinhVien;
-
     @Override
-    public Page<Lop> getLop(Pageable pageable, Integer idGiangVien) {
+    public Page<DonXinNghiHoc> listDonXinNghiHoc(Pageable pageable, Integer idGiangVien) {
         JPAQuery query = new JPAQueryFactory(em)
-                .selectFrom(lop).where(lop.giangVien.id.eq(idGiangVien))
+                .selectFrom(donXinNghiHoc).where(donXinNghiHoc.lopHocPhan.giangVien.id.eq(idGiangVien))
+                .orderBy(donXinNghiHoc.trangThai.asc())
                 .offset(pageable.getPageNumber()*pageable.getPageSize()).limit(pageable.getPageSize());
 
         return PageableExecutionUtils.getPage(query.fetch(), pageable, query::fetchCount);
-
     }
 }

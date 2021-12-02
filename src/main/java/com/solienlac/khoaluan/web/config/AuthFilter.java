@@ -42,9 +42,9 @@ public class AuthFilter extends BasicAuthenticationFilter {
 		}
 		// Decrypt token to get email
 		String token = tokenHeader.replace("Bearer ", "");
-		String email = null;
+		String tenDangNhap = null;
 		try {
-			email = Jwts.parser().setSigningKey("ABC_EGH").parseClaimsJws(token).getBody().getSubject();
+			tenDangNhap = Jwts.parser().setSigningKey("ABC_EGH").parseClaimsJws(token).getBody().getSubject();
 		} catch (Exception e) {
 			if (e instanceof ExpiredJwtException) {
 				response.sendError(401, "Hết hạn token");
@@ -55,7 +55,7 @@ public class AuthFilter extends BasicAuthenticationFilter {
 		// Get user information (UserDetailDto)
 		UserDetails userDetails;
 		try {
-			userDetails = userDetailsService.loadUserByUsername(email);
+			userDetails = userDetailsService.loadUserByUsername(tenDangNhap);
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 			response.sendError(401, e.getMessage());

@@ -3,7 +3,6 @@ package com.solienlac.khoaluan.web.api;
 import com.solienlac.khoaluan.web.common.dto.GetDonXinNghiHoc;
 import com.solienlac.khoaluan.web.common.dto.GetLop;
 import com.solienlac.khoaluan.web.common.dto.param.PostSmsCanhBao;
-import com.solienlac.khoaluan.web.domain.DonXinNghiHoc;
 import com.solienlac.khoaluan.web.service.DonXinNghiHocService;
 import com.solienlac.khoaluan.web.service.GiangVienService;
 import com.solienlac.khoaluan.web.service.LopService;
@@ -59,8 +58,9 @@ public class GiangVienApiController {
     }
 
     @GetMapping("/idGiangVien/list-donxinnghihoc")
-    public GetDonXinNghiHoc getDonXinNghiHoc(@PathVariable("idGiangVien") Integer idGiangVien){
-        return null;
+    public GetDonXinNghiHoc getDonXinNghiHoc(@PathVariable("idGiangVien") Integer idGiangVien,
+                                             @PageableDefault(size = 10, page = 1, direction = Sort.Direction.ASC) Pageable pageable){
+        return donXinNghiHocService.getDonXinNghiHoc(pageable,idGiangVien);
 
 
     }
