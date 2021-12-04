@@ -74,13 +74,17 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
             sv.setCanhBaoList(null);
             sv.setPhuHuynh(null);
             sv.setLop(null);
+            sv.setDonXinNghiHocs(null);
+            sv.setSinhVien_lopHocPhans(null);
             taiKhoanDangNhapResponse.setRole(Role.SINH_VIEN);
             taiKhoanDangNhapResponse.setThongTin(sv);
         }
         if(taiKhoan.getRole()==Role.GIANG_VIEN){
             GiangVien gv = giangVienRepository.findByMaGiangVien(taiKhoanDangNhap.getTenDangNhap());
             gv.setTaiKhoan(null);
+            gv.setLops(null);
             taiKhoanDangNhapResponse.setRole(Role.GIANG_VIEN);
+
             taiKhoanDangNhapResponse.setThongTin(gv);
         }
         if (taiKhoan.getRole()==Role.PHU_HUYNH){

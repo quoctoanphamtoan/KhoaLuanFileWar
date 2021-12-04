@@ -60,9 +60,14 @@ public class SinhVien  extends AbstractEntity {
     @JoinColumn(name = "idPhuHuynh")
     private PhuHuynh phuHuynh;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idLop")
     private Lop lop;
+
+
+    @OneToMany(mappedBy = "sinhVien")
+    private List<SinhVien_LopHocPhan> sinhVien_lopHocPhans = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "sinhVien")
     private List<DonXinNghiHoc> donXinNghiHocs= new ArrayList<>();
