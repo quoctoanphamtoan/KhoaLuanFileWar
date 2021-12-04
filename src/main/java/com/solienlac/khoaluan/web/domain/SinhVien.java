@@ -36,10 +36,13 @@ public class SinhVien  extends AbstractEntity {
     private String soDienThoai;
 
     @Column(name = "gioiTinh")
-    private Boolean gioiTinh;
+    private boolean gioiTinh;
 
     @Column(name = "email")
     private String email;
+
+    private String imgUrl;
+    private String chuyenNganh;
 
     @Column(name = "trangThai")
     @Enumerated(EnumType.STRING)
@@ -56,7 +59,7 @@ public class SinhVien  extends AbstractEntity {
     @JoinColumn(name = "idPhuHuynh")
     private PhuHuynh phuHuynh;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idLop")
     private Lop lop;
 
@@ -64,7 +67,7 @@ public class SinhVien  extends AbstractEntity {
     @OneToMany(mappedBy = "sinhVien")
     private List<DonXinNghiHoc> donXinNghiHocs= new ArrayList<>();
 
-    public SinhVien(String maSinhvVien, String hoTen, String diaChi, String soDienThoai, Boolean gioiTinh, String email,TaiKhoan taiKhoan) {
+    public SinhVien(String maSinhvVien, String hoTen, String diaChi, String soDienThoai, boolean gioiTinh, String email,TaiKhoan taiKhoan) {
         this.maSinhvVien = maSinhvVien;
         this.hoTen = hoTen;
         this.diaChi = diaChi;
