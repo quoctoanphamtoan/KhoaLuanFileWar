@@ -2,6 +2,7 @@ package com.solienlac.khoaluan.web.api;
 
 import com.solienlac.khoaluan.web.common.dto.ThongTinSinhVienDto;
 import com.solienlac.khoaluan.web.common.dto.param.PostDonXinNghiHoc;
+import com.solienlac.khoaluan.web.common.dto.param.PutSinhVienParam;
 import com.solienlac.khoaluan.web.service.DonXinNghiHocService;
 import com.solienlac.khoaluan.web.service.SinhVienService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,11 @@ public class SinhVienApiController {
     @GetMapping("/thongtin/{id}")
     public ThongTinSinhVienDto xemThongTin(@PathVariable("id") Integer id){
         return sinhVienService.xemThongTin(id);
+    }
+
+    @PutMapping("/thongtin/{id}")
+    public Integer chinhSuaThongTin(@PathVariable("id") Integer id, @RequestBody PutSinhVienParam putSinhVienParam){
+        return sinhVienService.chinhSuaSinhVien(id,putSinhVienParam);
     }
 
 }
