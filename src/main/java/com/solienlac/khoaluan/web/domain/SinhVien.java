@@ -1,6 +1,7 @@
 package com.solienlac.khoaluan.web.domain;
 
 
+import com.solienlac.khoaluan.web.common.dto.param.PutSinhVienParam;
 import com.solienlac.khoaluan.web.domain.common.AbstractEntity;
 import com.solienlac.khoaluan.web.domain.common.TrangThaiSinhVien;
 import lombok.AllArgsConstructor;
@@ -63,7 +64,6 @@ public class SinhVien  extends AbstractEntity {
     @JoinColumn(name = "idLop")
     private Lop lop;
 
-
     @OneToMany(mappedBy = "sinhVien")
     private List<DonXinNghiHoc> donXinNghiHocs= new ArrayList<>();
 
@@ -75,5 +75,11 @@ public class SinhVien  extends AbstractEntity {
         this.gioiTinh = gioiTinh;
         this.email = email;
         this.taiKhoan = taiKhoan;
+    }
+
+    public void chinhSua(PutSinhVienParam putSinhVienParam){
+        this.email = putSinhVienParam.getEmail();
+        this.soDienThoai = putSinhVienParam.getSoDT();
+        this.diaChi = putSinhVienParam.getDiaChi();
     }
 }
