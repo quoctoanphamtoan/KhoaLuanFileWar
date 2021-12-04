@@ -73,6 +73,7 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
             sv.setTaiKhoan(null);
             sv.setCanhBaoList(null);
             sv.setPhuHuynh(null);
+            sv.setLop(null);
             taiKhoanDangNhapResponse.setRole(Role.SINH_VIEN);
             taiKhoanDangNhapResponse.setThongTin(sv);
         }
