@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -35,7 +36,7 @@ public class GiangVien  extends AbstractEntity {
     private String email;
 
     @Column(name = "gioiTinh")
-    private Boolean gioiTinh;
+    private boolean gioiTinh;
 
     @Column(name = "trangThai")
     @Enumerated(EnumType.STRING)
@@ -44,12 +45,16 @@ public class GiangVien  extends AbstractEntity {
     @OneToMany(mappedBy = "giangVien")
     private List<Lop> lops;
 
+    private String chuyenNganh;
+
+    private String imgUrl;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idTaiKhoan")
     private TaiKhoan taiKhoan;
 
-
+    @OneToMany(mappedBy = "giangVien")
+    private List<ThongBao> thongBaos= new ArrayList<>();
 
     public GiangVien(Integer id, String maGiangVien, String hoTen, String diaChi,
                      String soDienThoai, String email, Boolean gioiTinh,TaiKhoan taiKhoan) {

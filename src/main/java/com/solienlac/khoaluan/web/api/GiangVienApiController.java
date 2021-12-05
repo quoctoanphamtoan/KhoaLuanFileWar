@@ -57,7 +57,7 @@ public class GiangVienApiController {
         return donXinNghiHocService.duyetDonXinNghiHoc(idGiangVien,idDonNghiHoc);
     }
 
-    @GetMapping("/idGiangVien/list-donxinnghihoc")
+    @GetMapping("/{idGiangVien}/list-donxinnghihoc")
     public GetDonXinNghiHoc getDonXinNghiHoc(@PathVariable("idGiangVien") Integer idGiangVien,
                                              @PageableDefault(size = 10, page = 1, direction = Sort.Direction.ASC) Pageable pageable){
         return donXinNghiHocService.getDonXinNghiHoc(pageable,idGiangVien);

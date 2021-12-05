@@ -37,5 +37,9 @@ public class LopHocPhan {
     @OneToMany(mappedBy = "lopHocPhan")
     private List<DonXinNghiHoc> donXinNghiHocs = new ArrayList<>();
 
+    @OneToMany(mappedBy = "lopHocPhan")
+    private List<ThongBao_LopHocPhan> thongBao_lopHocPhans = new ArrayList<>();
+    @OneToMany(mappedBy = "lopHocPhan")
+    private List<SinhVien_LopHocPhan> sinhVien_lopHocPhans = new ArrayList<>();
 
 }
