@@ -1,8 +1,6 @@
 package com.solienlac.khoaluan.web.service.impl;
 
-import com.solienlac.khoaluan.web.common.dto.CheckAuthResponse;
-import com.solienlac.khoaluan.web.common.dto.TaiKhoanDangNhap;
-import com.solienlac.khoaluan.web.common.dto.TaiKhoanDangNhapResponse;
+import com.solienlac.khoaluan.web.common.dto.*;
 import com.solienlac.khoaluan.web.common.dto.param.CheckAuthParam;
 import com.solienlac.khoaluan.web.common.dto.param.DangKiParam;
 import com.solienlac.khoaluan.web.domain.GiangVien;
@@ -70,22 +68,14 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
         TaiKhoan taiKhoan = taiKhoanRepository.findByTenDangNhap(taiKhoanDangNhap.getTenDangNhap());
         if (taiKhoan.getRole()== Role.SINH_VIEN){
             SinhVien sv=  sinhVienRepository.findByMaSinhvVien(taiKhoanDangNhap.getTenDangNhap());
-            sv.setTaiKhoan(null);
-            sv.setCanhBaoList(null);
-            sv.setPhuHuynh(null);
-            sv.setLop(null);
-            sv.setDonXinNghiHocs(null);
-            sv.setSinhVien_lopHocPhans(null);
             taiKhoanDangNhapResponse.setRole(Role.SINH_VIEN);
-            taiKhoanDangNhapResponse.setThongTin(sv);
+            taiKhoanDangNhapResponse.setThongTin(new ThongTinSinhVienDto(sv));
         }
         if(taiKhoan.getRole()==Role.GIANG_VIEN){
             GiangVien gv = giangVienRepository.findByMaGiangVien(taiKhoanDangNhap.getTenDangNhap());
-            gv.setTaiKhoan(null);
-            gv.setLops(null);
             taiKhoanDangNhapResponse.setRole(Role.GIANG_VIEN);
 
-            taiKhoanDangNhapResponse.setThongTin(gv);
+            taiKhoanDangNhapResponse.setThongTin(new ThongTinGiangVienDto(gv));
         }
         if (taiKhoan.getRole()==Role.PHU_HUYNH){
             PhuHuynh ph = phuHuynhRepository.findBySoDienThoai(taiKhoanDangNhap.getTenDangNhap());

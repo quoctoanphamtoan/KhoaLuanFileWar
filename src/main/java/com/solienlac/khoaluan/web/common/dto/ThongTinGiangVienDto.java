@@ -1,5 +1,6 @@
 package com.solienlac.khoaluan.web.common.dto;
 
+import com.solienlac.khoaluan.web.domain.GiangVien;
 import com.solienlac.khoaluan.web.domain.SinhVien;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ThongTinSinhVienDto {
+public class ThongTinGiangVienDto {
     /*
 
     maSinhVien
@@ -30,22 +31,20 @@ public class ThongTinSinhVienDto {
     private String chuyenNganh;
     private String hoTen;
     private boolean gioiTinh;
-    private String tenLop;
     private String email;
     private String soDT;
     private String diaChi;
     private String imgUrl;
-    public ThongTinSinhVienDto(SinhVien sinhVien){
-        this.id = sinhVien.getId();
-        this.maSinhVien = sinhVien.getMaSinhvVien();
-        this.chuyenNganh = sinhVien.getChuyenNganh();
-        this.hoTen = sinhVien.getHoTen();
-        this.gioiTinh = sinhVien.isGioiTinh();
-        this.tenLop = sinhVien.getLop().getTenLop();
-        this.email = sinhVien.getEmail();
-        this.soDT = sinhVien.getSoDienThoai();
-        this.diaChi= sinhVien.getDiaChi();
-        this.imgUrl =sinhVien.getImgUrl();
+    public ThongTinGiangVienDto(GiangVien giangVien){
+        this.id = giangVien.getId();
+        this.maSinhVien = giangVien.getMaGiangVien();
+        this.chuyenNganh = giangVien.getChuyenNganh();
+        this.hoTen = giangVien.getHoTen();
+        this.gioiTinh = giangVien.isGioiTinh();
+        this.email = giangVien.getEmail();
+        this.soDT = giangVien.getSoDienThoai();
+        this.diaChi= giangVien.getDiaChi();
+        this.imgUrl = giangVien.getImgUrl();
 
     }
 

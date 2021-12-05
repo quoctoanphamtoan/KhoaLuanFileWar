@@ -36,7 +36,7 @@ public class GiangVien  extends AbstractEntity {
     private String email;
 
     @Column(name = "gioiTinh")
-    private Boolean gioiTinh;
+    private boolean gioiTinh;
 
     @Column(name = "trangThai")
     @Enumerated(EnumType.STRING)
@@ -45,6 +45,9 @@ public class GiangVien  extends AbstractEntity {
     @OneToMany(mappedBy = "giangVien")
     private List<Lop> lops;
 
+    private String chuyenNganh;
+
+    private String imgUrl;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idTaiKhoan")
