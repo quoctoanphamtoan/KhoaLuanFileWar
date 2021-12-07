@@ -1,5 +1,6 @@
 package com.solienlac.khoaluan.web.config;
 
+import com.twilio.Twilio;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -38,6 +39,7 @@ public class TwilioConfig {
     }
 
     public TwilioConfig(String account_sid, String auth_token, String phone_nummber) {
+
         this.account_sid = account_sid;
         this.auth_token = auth_token;
         this.phone_nummber = phone_nummber;

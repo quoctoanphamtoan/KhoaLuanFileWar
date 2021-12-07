@@ -5,6 +5,7 @@ import com.solienlac.khoaluan.web.common.dto.TaiKhoanDangNhap;
 import com.solienlac.khoaluan.web.common.dto.TaiKhoanDangNhapResponse;
 import com.solienlac.khoaluan.web.common.dto.param.CheckAuthParam;
 import com.solienlac.khoaluan.web.common.dto.param.DangKiParam;
+import com.solienlac.khoaluan.web.common.dto.param.PutMatKhau;
 import com.solienlac.khoaluan.web.service.TaiKhoanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,12 @@ public class TaiKhoanApiController {
     @ResponseStatus(HttpStatus.OK)
     public CheckAuthResponse checkAuth(@RequestBody CheckAuthParam checkAuthParam){
         return taiKhoanService.checkAuth(checkAuthParam);
+    }
+
+    @PutMapping("/doimatkhau")
+    @ResponseStatus(HttpStatus.OK)
+    public Integer doiMatKhau(@RequestBody PutMatKhau putMatKhau){
+        return taiKhoanService.doiMatKhau(putMatKhau);
     }
 
 }

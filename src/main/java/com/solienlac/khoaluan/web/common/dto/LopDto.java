@@ -12,12 +12,13 @@ public class LopDto {
     private String tenLop;
     private String tenChuyenNganh;
     private Integer siSo;
-
+    private String khoaHoc;
     public LopDto(Lop lop) {
         this.id = lop.getId();
         this.tenLop = lop.getTenLop();
         this.tenChuyenNganh = lop.getChuyenNganh();
         this.siSo = lop.getSiSo();
+        this.khoaHoc = lop.getKhoaHoc();
     }
 
 }

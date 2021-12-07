@@ -24,4 +24,8 @@ public class ThongBao_Lop {
     @JoinColumn(name = "idLop")
     private Lop lop;
 
+    public ThongBao_Lop(ThongBao thongBao, Lop lop) {
+        this.thongBao = thongBao;
+        this.lop = lop;
+    }
 }

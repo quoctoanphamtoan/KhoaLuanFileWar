@@ -12,8 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetLop {
-    private List<LopDto> lopDtos;
+public class GetSinhVienLopHoc {
+    private List<SinhVienLopHocDto> sinhVienLopHocDtos;
     private PaginationMeta paginationMeta;
-
 }

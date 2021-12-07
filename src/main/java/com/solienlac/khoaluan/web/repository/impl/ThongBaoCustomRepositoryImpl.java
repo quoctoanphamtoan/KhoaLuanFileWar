@@ -26,27 +26,8 @@ public class ThongBaoCustomRepositoryImpl implements ThongBaoCustomRepository {
     private final QThongBao_LopHocPhan thongBao_lopHocPhan = QThongBao_LopHocPhan.thongBao_LopHocPhan;
     private final EntityManager em;
 
-    @Override
-    public Page<ThongBao_Lop> listThongBaoLopOfSinhVien(Pageable pageable, Integer idLop) {
-        JPAQuery query = new JPAQueryFactory(em)
-                .selectFrom(thongBao_lop)
-                .where(thongBao_lop.lop.id.eq(idLop),thongBao_lop.thongBao.trangThai.eq(true))
-                .offset((pageable.getPageNumber()-1)*pageable.getPageSize()).limit(pageable.getPageSize());
-//    return null;
-        log.info("size->{}",query.fetch().size());
-        return PageableExecutionUtils.getPage(query.fetch(), pageable, query::fetchCount);
-    }
 
-    @Override
-    public Page<ThongBao_LopHocPhan> listThongBaoLopHocPhanOfSinhVien(Pageable pageable, Integer idLopHocPhan) {
-        JPAQuery query = new JPAQueryFactory(em)
-                .selectFrom(thongBao_lopHocPhan)
-                .where(thongBao_lopHocPhan.lopHocPhan.id.eq(idLopHocPhan))
-                .offset((pageable.getPageNumber()-1)*pageable.getPageSize()).limit(pageable.getPageSize());
-//    return null;
-        log.info("size->{}",query.fetch().size());
-        return PageableExecutionUtils.getPage(query.fetch(), pageable, query::fetchCount);
-    }
+
 
     @Override
     public Page<ThongBao> listThongBao(Pageable pageable, Integer idSinhVien) {
@@ -69,11 +50,22 @@ public class ThongBaoCustomRepositoryImpl implements ThongBaoCustomRepository {
                                         .where(sinhVien.id.eq(idSinhVien))
 
                         )
-                ))
-                .orderBy(thongBao.ngayTao.asc())
+                ),thongBao.hienThi.eq(true))
+                .orderBy(thongBao.ngayTao.desc())
                 .offset(pageable.getPageNumber()*pageable.getPageSize()).limit(pageable.getPageSize());
-//    return null;
-        log.info("size->{}",query.fetch().size());
+        return PageableExecutionUtils.getPage(query.fetch(), pageable, query::fetchCount);
+    }
+
+    //giang vien
+    @Override
+    public Page<ThongBao> thongBaoLopSinhVien(Pageable pageable, Integer idGiangVien, Integer idLop) {
+        JPAQuery query = new JPAQueryFactory(em)
+                .selectFrom(thongBao)
+                .join(thongBao.thongBao_lops,thongBao_lop)
+                .join(thongBao_lop.lop,lop)
+                .where(lop.id.eq(idLop),thongBao.giangVien.id.eq(idGiangVien))
+                .orderBy(thongBao.ngayTao.desc())
+                .offset(pageable.getPageNumber()*pageable.getPageSize()).limit(pageable.getPageSize());
         return PageableExecutionUtils.getPage(query.fetch(), pageable, query::fetchCount);
     }
 }

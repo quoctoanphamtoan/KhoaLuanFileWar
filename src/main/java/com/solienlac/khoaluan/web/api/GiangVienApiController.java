@@ -1,12 +1,9 @@
 package com.solienlac.khoaluan.web.api;
 
-import com.solienlac.khoaluan.web.common.dto.GetDonXinNghiHoc;
-import com.solienlac.khoaluan.web.common.dto.GetLop;
+import com.solienlac.khoaluan.web.common.dto.*;
 import com.solienlac.khoaluan.web.common.dto.param.PostSmsCanhBao;
-import com.solienlac.khoaluan.web.service.DonXinNghiHocService;
-import com.solienlac.khoaluan.web.service.GiangVienService;
-import com.solienlac.khoaluan.web.service.LopService;
-import com.solienlac.khoaluan.web.service.SmsSenderService;
+import com.solienlac.khoaluan.web.common.dto.param.PostThongBaoLop;
+import com.solienlac.khoaluan.web.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/solienlacdientu/v1/giangvien")
@@ -22,12 +21,10 @@ public class GiangVienApiController {
     private final GiangVienService gIangVienService;
     private final LopService lopService;
     private final SmsSenderService service;
+    private final SinhVienService sinhVienService;
     private final DonXinNghiHocService donXinNghiHocService;
-    @GetMapping("test")
-    public String test(){
-        return "giang vien";
-    }
-
+    private final ThongBaoService thongBaoService;
+    private final CanhBaoService canhBaoService;
     /*
      *Lấy danh sách tất cả lớp học của giảng viên theo mã giảng viên(idGiangVien)
      * Giá trị trả về bao gồm:
@@ -63,6 +60,39 @@ public class GiangVienApiController {
         return donXinNghiHocService.getDonXinNghiHoc(pageable,idGiangVien);
 
 
+    }
+
+    @GetMapping("/{idLopHoc}/sinhvien")
+    public GetSinhVienLopHoc getSinhVienLopHoc(@PathVariable("idLopHoc") Integer idLopHoc,
+    @PageableDefault(size = 10, page = 1, direction = Sort.Direction.ASC) Pageable pageable){
+        return sinhVienService.getSinhVienLopHoc(pageable,idLopHoc);
+    }
+
+    @GetMapping("/{idGiangVien}/{idLopHoc}/thongbaolop")
+    public GetThongBaoLopOfGiangVien getThongBaoLopOfGiangVien(@PathVariable("idGiangVien") Integer idLopHoc,@PathVariable("idLopHoc") Integer idGiangVien,
+                                                       @PageableDefault(size = 10, page = 1, direction = Sort.Direction.ASC) Pageable pageable){
+        return thongBaoService.getThongBaoLopOfGiangVien(pageable,idGiangVien,idLopHoc);
+    }
+
+    @PostMapping("/{idGiangVien}/{idLop}/thongbaolop")
+    public Integer taoThongBaoLopHoc(@PathVariable("idGiangVien") Integer idGiangVien, @PathVariable("idLop") Integer idLop
+            , @RequestBody PostThongBaoLop postThongBaoLop){
+        return thongBaoService.themThongBaoLop(idGiangVien,idLop,postThongBaoLop);
+    }
+    @PutMapping("/{idThongBao}/thongbaolop")
+    public Integer chinhSuaThongBaoLopHoc(@PathVariable("idThongBao") Integer idThongBao
+            , @RequestBody PostThongBaoLop postThongBaoLop){
+        return thongBaoService.chinhSuaThongBaoLop(idThongBao,postThongBaoLop);
+    }
+    @PutMapping("/{idThongBao}/thongbaolop/hienthi")
+    public Integer chinhSuaHienThiThongBaoLopHoc(@PathVariable("idThongBao") Integer idThongBao){
+        return thongBaoService.chinhSuaHienThiThongBaoLop(idThongBao);
+    }
+
+    @GetMapping("/{idGiangVien}/{idSinhVien}/canhbao")
+    public List<CanhBaoDto> getCanhBaoSinhVienOfLopHOc(@PathVariable("idGiangVien") Integer idGiangVien,
+                                                       @PathVariable("idSinhVien") Integer idSinhVien){
+        return canhBaoService.listCanhBao(idSinhVien,idGiangVien);
     }
 
 

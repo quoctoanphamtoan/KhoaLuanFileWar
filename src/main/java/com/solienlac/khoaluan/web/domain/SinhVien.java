@@ -60,7 +60,7 @@ public class SinhVien  extends AbstractEntity {
     @JoinColumn(name = "idPhuHuynh")
     private PhuHuynh phuHuynh;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idLop")
     private Lop lop;
 

@@ -3,6 +3,7 @@ package com.solienlac.khoaluan.web.service.impl;
 import com.solienlac.khoaluan.web.common.dto.*;
 import com.solienlac.khoaluan.web.common.dto.param.CheckAuthParam;
 import com.solienlac.khoaluan.web.common.dto.param.DangKiParam;
+import com.solienlac.khoaluan.web.common.dto.param.PutMatKhau;
 import com.solienlac.khoaluan.web.domain.GiangVien;
 import com.solienlac.khoaluan.web.domain.PhuHuynh;
 import com.solienlac.khoaluan.web.domain.SinhVien;
@@ -17,11 +18,14 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +36,7 @@ import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
+@Log4j2
 @RequiredArgsConstructor
 public class TaiKhoanServiceImpl implements TaiKhoanService {
     private final TaiKhoanRepository taiKhoanRepository;
@@ -161,6 +166,28 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
 
         TaiKhoan taiKhoan = taiKhoanRepository.findByTenDangNhap(tenDangNhap);
         return new CheckAuthResponse(taiKhoan.getRole(),true);
+    }
+
+    @Override
+    @Transactional
+    public Integer doiMatKhau(PutMatKhau putMatKhau) {
+        if(putMatKhau.getRole().toString().equalsIgnoreCase(Role.SINH_VIEN.toString())){
+            SinhVien sinhVien = sinhVienRepository.findById(putMatKhau.getId())
+                    .orElseThrow(() -> new IllegalArgumentException("id not found!"));
+            if(!BCrypt.checkpw(putMatKhau.getPassword(),sinhVien.getTaiKhoan().getMatKhau())){
+                throw new IllegalArgumentException("password error!");
+            }
+            if (!putMatKhau.getNewPassword().equalsIgnoreCase(putMatKhau.getConfirmPassword())){
+                throw new IllegalArgumentException("password khong gioong!");
+            }
+            String has = BCrypt.hashpw(putMatKhau.getNewPassword(),BCrypt.gensalt());
+            sinhVien.getTaiKhoan().setMatKhau(has);
+            return 1;
+        }
+
+
+
+        return -1;
     }
 
 }
