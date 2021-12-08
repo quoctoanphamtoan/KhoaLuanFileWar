@@ -3,6 +3,7 @@ package com.solienlac.khoaluan.web.service.impl;
 import com.solienlac.khoaluan.web.common.dto.*;
 import com.solienlac.khoaluan.web.common.dto.param.CheckAuthParam;
 import com.solienlac.khoaluan.web.common.dto.param.DangKiParam;
+import com.solienlac.khoaluan.web.common.dto.param.PutImgDetail;
 import com.solienlac.khoaluan.web.common.dto.param.PutMatKhau;
 import com.solienlac.khoaluan.web.domain.GiangVien;
 import com.solienlac.khoaluan.web.domain.PhuHuynh;
@@ -28,6 +29,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -45,7 +47,7 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
     private final PhuHuynhRepository phuHuynhRepository;
     private final UserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
-
+    private final AmazonClient amazonClient;
 
     @Override
     public List<TaiKhoan> getAll() {
@@ -188,6 +190,16 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
 
 
         return -1;
+    }
+
+    @Override
+    @Transactional
+    public String uploadImgUrl(Integer id, MultipartFile file) {
+        String urlImg =  amazonClient.uploadFile(file);
+        SinhVien sinhVien = sinhVienRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("id not found!"));
+        sinhVien.setImgUrl(urlImg);
+        return urlImg;
     }
 
 }
