@@ -27,6 +27,8 @@ public class Lop {
     @Column(name = "chuyenNganh")
     private String chuyenNganh;
 
+    private String khoaHoc;
+
     @OneToMany(mappedBy = "thongBao")
     private List<ThongBao_LopHocPhan> thongBao_lopHocPhans = new ArrayList<>();
     public Integer getSiSo(){

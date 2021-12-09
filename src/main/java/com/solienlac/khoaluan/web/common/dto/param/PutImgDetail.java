@@ -1,14 +1,13 @@
 package com.solienlac.khoaluan.web.common.dto.param;
 
+import com.solienlac.khoaluan.web.domain.common.Role;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PostSmsCanhBao {
-    private String tieuDe;
-    private String noiDung;
-    private Integer idSinhVien;
-    private Integer idGiangVien;
+@Getter
+public class PutImgDetail {
+    private Integer id;
+    private Role role;
 }

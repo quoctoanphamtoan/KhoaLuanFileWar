@@ -22,22 +22,6 @@ public class ThongBaoSinhVienDto {
     private Date ngayTao;
     private String tenGiangVien;
 
-    public ThongBaoSinhVienDto(ThongBao_Lop thongBao_lop){
-        this.id = thongBao_lop.getThongBao().getId();
-        this.tieuDe = thongBao_lop.getThongBao().getTieuDe();
-        this.thongBaoType = "TB_LOP";
-        this.noiDung = thongBao_lop.getThongBao().getNoiDung();
-        this.ngayTao = thongBao_lop.getThongBao().getNgayTao();
-        this.tenGiangVien = thongBao_lop.getThongBao().getGiangVien().getHoTen();
-    }
-    public ThongBaoSinhVienDto(ThongBao_LopHocPhan thongBao_lopHocPhan){
-        this.id = thongBao_lopHocPhan.getThongBao().getId();
-        this.tieuDe = thongBao_lopHocPhan.getThongBao().getTieuDe();
-        this.thongBaoType = "TB_LOP_HOCPHAN";
-        this.noiDung = thongBao_lopHocPhan.getThongBao().getNoiDung();
-        this.ngayTao = thongBao_lopHocPhan.getThongBao().getNgayTao();
-        this.tenGiangVien = thongBao_lopHocPhan.getThongBao().getGiangVien().getHoTen();
-    }
     public ThongBaoSinhVienDto(ThongBao thongBao){
         this.id = thongBao.getId();
         this.ngayTao = thongBao.getNgayTao();
